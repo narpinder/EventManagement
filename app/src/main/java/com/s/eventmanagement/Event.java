@@ -1,6 +1,8 @@
 package com.s.eventmanagement;
 
-public class Event {
+import java.io.Serializable;
+
+public class Event implements Serializable {
     private String EventName;
     private int EventDrawable;
     private String EventDate;

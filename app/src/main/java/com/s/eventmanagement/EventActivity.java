@@ -1,14 +1,18 @@
 package com.s.eventmanagement;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventActivity extends AppCompatActivity {
+public class EventActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ListView eventList;
 
@@ -19,10 +23,13 @@ public class EventActivity extends AppCompatActivity {
 
         eventList = findViewById(R.id.event_list);
         setEventData();
+        eventList.setOnItemClickListener(this);
     }
 
+    private List<Event> eventListData;
+
     private void setEventData() {
-        List<Event> eventListData = new ArrayList<>();
+        eventListData = new ArrayList<>();
 
         eventListData.add(new Event("Event 1", R.drawable.first, "21 Feb, 2019", getString(R.string.dummy)));
         eventListData.add(new Event("Event 2", R.drawable.second, "22 Feb, 2019", getString(R.string.dummy)));
@@ -32,5 +39,12 @@ public class EventActivity extends AppCompatActivity {
         EventAdapter eventAdapter = new EventAdapter(eventListData, getApplicationContext());
 
         eventList.setAdapter(eventAdapter);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(this, EventDetailsScreen.class);
+        intent.putExtra("event", (Serializable) eventListData.get(position));
+        startActivity(intent);
     }
 }
