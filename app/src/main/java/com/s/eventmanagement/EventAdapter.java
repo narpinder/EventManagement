@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class EventAdapter extends ArrayAdapter<Event> {
+public class EventAdapter extends ArrayAdapter<Data> {
 
-    private List<Event> eventList;
+    private List<Data> eventList;
     private Context mContext;
 
     // View lookup cache
@@ -24,7 +24,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         TextView eventDescription;
     }
 
-    public EventAdapter(List<Event> eventList, Context context) {
+    public EventAdapter(List<Data> eventList, Context context) {
         super(context, R.layout.event_row, eventList);
         this.eventList = eventList;
         this.mContext = context;
@@ -33,7 +33,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-        Event event = getItem(position);
+        Data event = getItem(position);
         ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();
@@ -48,10 +48,11 @@ public class EventAdapter extends ArrayAdapter<Event> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         if (event != null) {
-            viewHolder.evenName.setText(event.getEventName());
-            viewHolder.eventDate.setText(event.getEventDate());
-            viewHolder.eventDescription.setText(event.getEventDescription());
-            viewHolder.eventImage.setImageDrawable(mContext.getResources().getDrawable(event.getEventDrawable()));
+            viewHolder.evenName.setText(event.getName());
+            viewHolder.eventDate.setText(event.getDate());
+            viewHolder.eventDescription.setText(event.getDescription());
+            new DownloadImageTask(viewHolder.eventImage)
+                    .execute("http://18.222.74.167/event-management/uploads/image/" + event.getImage());
         }
         return convertView;
     }

@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText Password;
 
     private Button Login;
-    private Button Registration;
     private ProgressDialog dialog;
 
     @Override
@@ -38,10 +37,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         UserName = findViewById(R.id.Username);
         Password = findViewById(R.id.Password);
         Login = findViewById(R.id.Login);
-        Registration = findViewById(R.id.Registration);
 
         Login.setOnClickListener(this);
-        Registration.setOnClickListener(this);
 
         dialog = new ProgressDialog(MainActivity.this);
     }
@@ -60,9 +57,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             dialog.show();
             new HTTPAsyncTask().execute("http://18.222.74.167/event-management/api/login.json");
 
-        } else if (v == Registration) {
-            Intent intent = new Intent(getApplicationContext(), RegistrationActivity.class);
-            startActivity(intent);
         }
     }
 

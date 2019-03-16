@@ -14,7 +14,7 @@ public class EventDetailsScreen extends AppCompatActivity {
     private TextView eventDate;
     private TextView eventDescription;
 
-    private Event event;
+    private Data event;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,12 +28,13 @@ public class EventDetailsScreen extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent.getExtras() != null) {
-            event = (Event) intent.getExtras().get("event");
+            event = (Data) intent.getExtras().get("event");
             if (event != null) {
-                evenName.setText(event.getEventName());
-                eventDate.setText(event.getEventDate());
-                eventDescription.setText(event.getEventDescription());
-                eventImage.setImageDrawable(getResources().getDrawable(event.getEventDrawable()));
+                evenName.setText(event.getName());
+                eventDate.setText(event.getDate());
+                eventDescription.setText(event.getDescription());
+                new DownloadImageTask(eventImage)
+                        .execute("http://18.222.74.167/event-management/uploads/image/" + event.getImage());
             }
         }
     }
