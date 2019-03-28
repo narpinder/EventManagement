@@ -9,6 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class EventAdapter extends ArrayAdapter<Data> {
@@ -49,12 +52,30 @@ public class EventAdapter extends ArrayAdapter<Data> {
         }
         if (event != null) {
             viewHolder.evenName.setText(event.getName());
-            viewHolder.eventDate.setText(event.getDate());
+            viewHolder.eventDate.setText(parseDateToddMMyyyy(event.getDate()).toUpperCase());
             viewHolder.eventDescription.setText(event.getDescription());
             new DownloadImageTask(viewHolder.eventImage)
                     .execute("http://18.222.74.167/event-management/uploads/image/" + event.getImage());
         }
         return convertView;
+    }
+
+    public String parseDateToddMMyyyy(String time) {
+        String inputPattern = "yyyy-MM-dd'T'HH:mm:ss";
+        String outputPattern = "dd-MMM-yyyy h:mm a";
+        SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
+        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+
+        Date date = null;
+        String str = null;
+
+        try {
+            date = inputFormat.parse(time);
+            str = outputFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return str;
     }
 
     @Override
